@@ -1,0 +1,29 @@
+{
+  "canisters": {
+    "immunify_dvp_backend": {
+      "main": "src/immunify_dvp_backend/main.mo",
+      "type": "motoko"
+    },
+    "immunify_dvp_frontend": {
+      "dependencies": [
+        "immunify_dvp_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/immunify_dvp_frontend/src/index.html"
+      },
+      "source": [
+        "src/immunify_dvp_frontend/assets",
+        "dist/immunify_dvp_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
