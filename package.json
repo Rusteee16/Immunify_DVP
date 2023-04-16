@@ -2,13 +2,18 @@
   "name": "immunify_dvp_frontend",
   "version": "0.1.0",
   "description": "Internet Computer starter application",
-  "keywords": ["Internet Computer", "Motoko", "JavaScript", "Canister"],
+  "keywords": [
+    "Internet Computer",
+    "Motoko",
+    "JavaScript",
+    "Canister"
+  ],
   "scripts": {
     "build": "webpack",
-    "prebuild": "npm run generate",
+    "prebuild": "npm run copy:types",
     "start": "webpack serve --mode development --env development",
-    "prestart": "npm run generate",
-    "generate": "dfx generate immunify_dvp_backend"
+    "prestart": "npm run copy:types",
+    "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
   },
   "devDependencies": {
     "@dfinity/agent": "0.15.5",
@@ -17,11 +22,17 @@
     "assert": "2.0.0",
     "buffer": "6.0.3",
     "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.2.0",
     "events": "3.3.0",
     "html-webpack-plugin": "5.5.0",
     "process": "0.11.10",
     "stream-browserify": "3.0.0",
+    "style-loader": "^3.2.1",
+    "svg-url-loader": "7.1.1",
     "terser-webpack-plugin": "^5.3.3",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.5.5",
+    "url-loader": "^4.1.1",
     "util": "0.12.4",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
@@ -35,5 +46,33 @@
     "last 2 firefox version",
     "last 2 safari version",
     "last 2 edge version"
-  ]
+  ],
+  "admin_frontend": {
+    "entry": "./src/admin/src/index.jsx"
+  },
+  "user_frontend": {
+    "entry": "./src/user/src/index.jsx"
+  },
+  "enterprises_frontend": {
+    "entry": "./src/enterprises/src/index.jsx"
+  },
+  "dependencies": {
+    "@dfinity/auth-client": "^0.15.4",
+    "@dfinity/authentication": "^0.14.2",
+    "@dfinity/identity": "^0.15.4",
+    "@svgr/webpack": "^7.0.0",
+    "bootstrap": "^5.2.3",
+    "image-webpack-loader": "^8.1.0",
+    "lit-html": "^2.7.0",
+    "lodash": "^4.17.21",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.2",
+    "react-country-dropdown": "^1.1.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.8",
+    "react-loader-spinner": "^5.3.4",
+    "react-router-dom": "^6.9.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.2"
+  }
 }

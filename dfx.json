@@ -4,16 +4,46 @@
       "main": "src/immunify_dvp_backend/main.mo",
       "type": "motoko"
     },
-    "immunify_dvp_frontend": {
+    "passport": {
+      "main": "src/passport/passport.mo",
+      "type": "motoko"
+    },
+    "admin": {
       "dependencies": [
         "immunify_dvp_backend"
       ],
       "frontend": {
-        "entrypoint": "src/immunify_dvp_frontend/src/index.html"
+        "entrypoint": "src/admin/src/index.html"
       },
       "source": [
-        "src/immunify_dvp_frontend/assets",
-        "dist/immunify_dvp_frontend/"
+        "src/admin/assets",
+        "dist/"
+      ],
+      "type": "assets"
+    },
+    "users": {
+      "dependencies": [
+        "immunify_dvp_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/users/src/index.html"
+      },
+      "source": [
+        "src/users/assets",
+        "dist/"
+      ],
+      "type": "assets"
+    },
+    "enterprises": {
+      "dependencies": [
+        "immunify_dvp_backend"
+      ],
+      "frontend": {
+        "entrypoint": "src/enterprises/src/index.html"
+      },
+      "source": [
+        "src/enterprises/assets",
+        "dist/"
       ],
       "type": "assets"
     }
