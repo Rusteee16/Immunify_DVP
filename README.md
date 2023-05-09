@@ -19,7 +19,7 @@ Install Node.js and its package installer, npm.
 Clone the project:
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/Rusteee16/Immunify_DVP.git
 ```
 
 Go to the project directory:
