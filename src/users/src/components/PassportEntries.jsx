@@ -4,6 +4,9 @@ import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory } from "../../../declarations/passport";
 import { immunify_dvp_backend } from "../../../declarations/immunify_dvp_backend";
 import { Principal } from "@dfinity/principal";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { InfinitySpin } from 'react-loader-spinner';
 
 function PassportEntries(props) {
     const [dvp, setDvp] = useState({
@@ -17,6 +20,7 @@ function PassportEntries(props) {
     const [owner, setOwner] = useState();
     const [button, setButton] = useState();
     const [receiverAddress, setReceiverAddress] = useState();
+    const [loaderHidden, setLoaderHidden] = useState(true);
 
     const id = props.id;
 
@@ -26,6 +30,7 @@ function PassportEntries(props) {
     let receiverId;
     let PassportActor;
 
+    //Fetching individual passport information
     async function loadPassport() {
         PassportActor = await Actor.createActor(idlFactory, {
             agent,
@@ -52,27 +57,31 @@ function PassportEntries(props) {
         );
         setImage(image);
 
-        setButton(<Button handleClick={handlePublish} text={"Publish"} />);
+        setButton(<Button handleClick={handleTransfer} text={"Send"} />);
     }
 
-    function handlePublish() {
+    function handleTransfer() {
         setReceiverAddress(
             <input
+                className="form-control"
                 name="receiverId"
                 value="uuc56-gyb"
                 readOnly
             />
         );
-        setButton(<Button handleClick={publishPassport} text={"Confirm"} />);
+        setButton(<Button handleClick={transferPassport} text={"Confirm"} />);
     };
 
-    async function publishPassport() {
-        const publishResult = await immunify_backend.publishPassports(props.id, Principal.fromText(receiverId));
+    //Transfering passport to enterprise
+    async function transferPassport() {
+        setLoaderHidden(false);
+        const publishResult = await immunify_dvp_backend.completeTransfer(props.id, Principal.fromText("2ibo7-dia"), Principal.fromText("uuc56-gyb"));
         console.log(publishResult);
+        setLoaderHidden(true);
         if (publishResult === "Success") {
-            const immunifyId = await immunify_backend.getImmunifyCanisterId();
-            const transferResult = await PassportActor.transferOwnership(immunifyId);
-            console.log(transferResult);
+            toast.success('Passport Sent.');
+        } else {
+            toast.error("Failed to Send Passport.");
         }
     }
 
@@ -112,8 +121,13 @@ function PassportEntries(props) {
                 </div>
                 <div className="passport-footer">
                     <p>Owner ID:{owner}</p>
-                    {receiverAddress}
-                    {button}
+                    <div>{loaderHidden ? <div> {receiverAddress} {button} <ToastContainer /></div> : <div className="loader">
+                        <InfinitySpin
+                            width='200'
+                            color="#F9F7F7"
+                        />
+                    </div>}
+                    </div>
                 </div>
             </div>
         </div>

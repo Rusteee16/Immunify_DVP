@@ -1,11 +1,12 @@
 import React from "react";
 
-function TableEntries(){
-    return(
+function TableEntries(props) {
+
+    return (
         <tr>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td className="table-status-entry"><span className="badge text-bg-success">Success</span></td>
+            <td>{props.receiverId}</td>
+            <td>{props.date}</td>
+            <td className="table-status-entry"><span className={props.status === "Approved" ? "badge text-bg-success" : "badge text-bg-danger"}>{props.status}</span></td>
         </tr>
     );
 };

@@ -75,9 +75,10 @@ module.exports = {
   },
   output: {
     filename: "[name].js",
-    // filename: (pathData) => {
-    //   return pathData.chunk.name === 'main' ? '[name].js' : '[name]/[name].js';
-    path: path.join(__dirname, "dist"),
+    filename: (pathData) => {
+      return pathData.chunk.name === 'main' ? 'index.js' : '[name]/index.js';
+    }
+    //path: path.join(__dirname, "dist", "[name]"),
   },
 
   // Depending in the language or framework you are using for
@@ -92,7 +93,7 @@ module.exports = {
       { test: /\.svg$/, use: ["svg-url-loader"] },
       { test: /\.(jpg|png|webp)$/, use: ["url-loader"] },
       {
-        test: /\.(gif|png|jpe?g|svg)$/i,
+        test: /\.(jpe?g)$/i,
         use: [
           'file-loader',
           {
@@ -110,21 +111,21 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ['admin'],
-      filename: 'admin.html',
+      filename: 'admin/index.html',
       template: path.join(__dirname, admin_entry),
       cache: false,
     }),
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ['enterprises'],
-      filename: 'enterprises.html',
+      filename: 'enterprises/index.html',
       template: path.join(__dirname, enterprises_entry),
       cache: false,
     }),
     new HtmlWebpackPlugin({
       inject: true,
       chunks: ['users'],
-      filename: 'users.html',
+      filename: 'users/index.html',
       template: path.join(__dirname, users_entry),
       cache: false,
     }),

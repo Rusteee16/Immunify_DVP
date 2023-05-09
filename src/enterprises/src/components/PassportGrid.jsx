@@ -8,22 +8,33 @@ import Table from "./Table";
 function PassportGrid(props) {
 
     const [passportEntries, setEntries] = useState();
+    const [userPassportIds, setUserPassportIds] = useState([]);
+    var len = 0;
 
+    //Fetching all the passports for the user
     async function fetchPassports() {
-        await immunify_dvp_backend.getDupPrincipal();
-        const userPassporIds = await immunify_dvp_backend.getOwnedPassports(Principal.fromText("uuc56-gyb"));
-        if (userPassporIds != undefined) {
-            setEntries(
-                userPassporIds.map((PassportId) => (
-                    <PassportEntries id={PassportId} key={PassportId.toText()} />
-                ))
-            )
+        // await immunify_dvp_backend.getDupPrincipal();
+        const userPassportIds = await immunify_dvp_backend.getOwnedPassports(Principal.fromText("uuc56-gyb"));
+        setUserPassportIds(userPassportIds);
+        if (userPassportIds != undefined) {
+            if (userPassportIds.length < 1) {
+                setEntries(<h4>There are no passports registered.</h4>)
+            } else {
+                setEntries(
+                    userPassportIds.map((PassportId) => (
+                        <PassportEntries id={PassportId} key={PassportId.toText()} />
+                    ))
+                )
+            }
         }
     }
 
     useEffect(() => {
-        fetchPassports();
-    }, []);
+        if (userPassportIds != undefined || userPassportIds.length > len || userPassportIds.length < len) {
+            len = userPassportIds.length;
+            fetchPassports();
+        }
+    }, [userPassportIds]);
 
 
     return (

@@ -2,14 +2,18 @@ import React from "react";
 import "../../assets/admin.css";
 import Header from "./Header";
 import Footer from "./Footer";
-import Title from "./Title";
 import Minter from "./Minter";
+import Title from "./Title";
+import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 
 function App() {
     return (
         <>
             <Header />
-            <Minter />
+            <Routes>
+                <Route path="/admin" element={<Title />} />
+                <Route path="/admin/minter" element={<Minter />} />
+            </Routes>
             <Footer />
         </>
     );

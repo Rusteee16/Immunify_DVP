@@ -1,6 +1,12 @@
-import { immunify_dvp_backend } from "../../declarations/immunify_dvp_backend";
 import React from "react";
-import ReactDOMClient from "react-dom/client";
+import ReactDOM from "react-dom/client";
 import App from "./components/App";
+import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 
-ReactDOMClient.createRoot(document.getElementById("root")).render(<App />);
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+    <BrowserRouter forceRefresh={true}>
+        <App />
+    </BrowserRouter>
+);

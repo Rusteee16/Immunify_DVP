@@ -37,9 +37,6 @@ html {
 }
 
 .loader {
-  display: inline-block;
-  position: relative;
-  width: 80px;
   height: 80px;
 }
 
@@ -155,7 +152,7 @@ html {
   background-color: #DBE2EF;
   width: 80%;
   height: auto;
-  margin: 0;
+  margin: auto;
   text-align: center;
 }
 

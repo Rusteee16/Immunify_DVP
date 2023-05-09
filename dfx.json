@@ -17,7 +17,7 @@
       },
       "source": [
         "src/admin/assets",
-        "dist/"
+        "dist/admin/"
       ],
       "type": "assets"
     },
@@ -30,7 +30,7 @@
       },
       "source": [
         "src/users/assets",
-        "dist/"
+        "dist/users/"
       ],
       "type": "assets"
     },
@@ -43,7 +43,7 @@
       },
       "source": [
         "src/enterprises/assets",
-        "dist/"
+        "dist/enterprises/"
       ],
       "type": "assets"
     }

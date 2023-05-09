@@ -9,9 +9,11 @@
     "Canister"
   ],
   "scripts": {
+    "start:admin": "webpack serve --env server=admin --mode development",
+    "start:user": "webpack serve --env server=user --mode development",
+    "start:enterprises": "webpack serve --env server=enterprises --mode development",
     "build": "webpack",
     "prebuild": "npm run copy:types",
-    "start": "webpack serve --mode development --env development",
     "prestart": "npm run copy:types",
     "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'**'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
   },
@@ -72,6 +74,7 @@
     "react-hook-form": "^7.43.8",
     "react-loader-spinner": "^5.3.4",
     "react-router-dom": "^6.9.0",
+    "react-toastify": "^9.1.2",
     "ts-loader": "^9.4.2",
     "typescript": "^5.0.2"
   }

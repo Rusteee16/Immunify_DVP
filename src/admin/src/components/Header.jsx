@@ -7,9 +7,9 @@ function Header() {
         <div className="app-root-1">
             <header className="header-root">
                 <div className="header-div">
-                    <h5 className="header-brand">Immunify</h5>
+                    <Link to="/admin"><h5 className="header-brand">Immunify</h5></Link>
                     <div className="header-empty"></div>
-                    <button className="header-button">Minter</button>
+                    <Link to="/admin/minter"><button className="header-button">Minter</button></Link>
                     <button className="header-button">LogOut</button>
                 </div>
             </header>

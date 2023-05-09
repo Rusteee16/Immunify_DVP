@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Actor, HttpAgent } from "@dfinity/agent";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { InfinitySpin } from 'react-loader-spinner';
 import { idlFactory } from "../../../declarations/passport";
 import { immunify_dvp_backend } from "../../../declarations/immunify_dvp_backend";
 import { Principal } from "@dfinity/principal";
@@ -15,7 +18,8 @@ function PassportEntries(props) {
     const [image, setImage] = useState();
     const [owner, setOwner] = useState();
     const [button, setButton] = useState();
-    const [receiverAddress, setReceiverAddress] = useState();
+    // const [receiverAddress, setReceiverAddress] = useState();
+    const [loaderHidden, setLoaderHidden] = useState(true);
 
     const id = props.id;
 
@@ -25,6 +29,7 @@ function PassportEntries(props) {
     let receiverId;
     let PassportActor;
 
+    //To fetch the passport information
     async function loadPassport() {
         PassportActor = await Actor.createActor(idlFactory, {
             agent,
@@ -53,6 +58,39 @@ function PassportEntries(props) {
 
         // setButton(<Button handleClick={handlePublish} text={"Publish"} />);
     }
+
+    //Passport approving functionality
+    async function transferPassportPass() {
+        setLoaderHidden(false);
+        const publishResult = await immunify_dvp_backend.transferDecision(props.id, Principal.fromText("uuc56-gyb"), Principal.fromText("2ibo7-dia"), "Approved", date);
+        console.log(publishResult);
+        setLoaderHidden(true);
+        if (publishResult == "Success") {
+            toast.success('Passport Approved.');
+        } else {
+            toast.error("Failed to Approve Passport.");
+        }
+    };
+
+    //Passport rejecting functionality 
+    async function transferPassportFail() {
+        setLoaderHidden(false);
+        const publishResult = await immunify_dvp_backend.transferDecision(props.id, Principal.fromText("uuc56-gyb"), Principal.fromText("2ibo7-dia"), "Rejected", date);
+        console.log(publishResult);
+        setLoaderHidden(true);
+        if (publishResult === "Success") {
+            toast.success('Passport Rejected.');
+        } else {
+            toast.error("Failed to Reject Passport.");
+        }
+        useEffect(() => {
+            loadPassport();
+        }, []);
+    };
+
+    useEffect(() => {
+        loadPassport();
+    }, []);
 
     return (
         <div className="col-lg-6 passport-col">
@@ -86,8 +124,15 @@ function PassportEntries(props) {
                 </div>
                 <div className="passport-footer">
                     <p>Owner ID:{owner}</p>
-                    <button className="btn btn-sm btn-outline-success passport-button">Approve</button>
-                    <button className="btn btn-sm btn-outline-danger">Reject</button>
+                    <div> {loaderHidden ? <><button className="btn btn-sm btn-outline-success passport-button" onClick={transferPassportPass}>Approve</button>
+                        <button className="btn btn-sm btn-outline-danger" onClick={transferPassportFail}>Reject</button>
+                        <ToastContainer /></> : <div className="loader">
+                        <InfinitySpin
+                            width='200'
+                            color="#F9F7F7"
+                        />
+                    </div>}
+                    </div>
                 </div>
             </div>
         </div>
